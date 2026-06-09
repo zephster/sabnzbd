@@ -998,6 +998,12 @@ def _api_config_set_unpause(name: str, kwargs: ApiParams) -> bytes:
     return report()
 
 
+def _api_config_unpause_until_empty(name: str, kwargs: ApiParams) -> bytes:
+    """API: resume now and re-pause once the queue is empty"""
+    sabnzbd.Scheduler.plan_resume_until_empty()
+    return report()
+
+
 def _api_config_set_apikey(name: str, kwargs: ApiParams) -> bytes:
     cfg.api_key.set(config.create_api_key())
     config.save_config()
@@ -1157,6 +1163,7 @@ _api_config_table = {
     "speedlimit": (_api_config_speedlimit, 2),
     "set_pause": (_api_config_set_pause, 2),
     "set_unpause": (_api_config_set_unpause, 2),
+    "unpause_until_empty": (_api_config_unpause_until_empty, 2),
     "set_apikey": (_api_config_set_apikey, 3),
     "set_nzbkey": (_api_config_set_nzbkey, 3),
     "regenerate_certs": (_api_config_regenerate_certs, 3),
